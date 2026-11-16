@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_standard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@600;700&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{colors:{"on-primary-fixed":"#400012","surface-container-highest":"#d3e4fe","outline":"#916e72","error-container":"#ffdad6","primary-container":"#e60756","surface-tint":"#bd0045","secondary":"#565e74","on-tertiary-fixed-variant":"#003ea8","inverse-primary":"#ffb2bb","primary-fixed-dim":"#ffb2bb","on-primary-container":"#fffbff","primary-fixed":"#ffd9dd","secondary-container":"#dae2fd","on-secondary-container":"#5c647a","tertiary-fixed":"#dbe1ff","surface-dim":"#cbdbf5","on-tertiary-container":"#fefcff","on-background":"#0b1c30","on-secondary-fixed-variant":"#3f465c","surface-container":"#e5eeff","surface-bright":"#f8f9ff","surface-container-high":"#dce9ff","on-primary-fixed-variant":"#910033","on-tertiary":"#ffffff","surface-container-low":"#eff4ff","on-surface-variant":"#5c3f42","inverse-on-surface":"#eaf1ff","surface-variant":"#d3e4fe","surface":"#f8f9ff","inverse-surface":"#213145","tertiary-container":"#316bf3","on-secondary":"#ffffff","outline-variant":"#e5bcc0","tertiary-fixed-dim":"#b4c5ff","on-tertiary-fixed":"#00174b","on-surface":"#0b1c30","surface-container-lowest":"#ffffff","secondary-fixed-dim":"#bec6e0","primary":"#b80043","on-primary":"#ffffff","tertiary":"#0051d5","on-error":"#ffffff","background":"#f8f9ff","secondary-fixed":"#dae2fd","on-error-container":"#93000a","on-secondary-fixed":"#131b2e","error":"#ba1a1a"},borderRadius:{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},spacing:{"space-lg":"1.5rem","space-xs":"0.25rem","margin-mobile":"1rem","space-sm":"0.5rem","space-xl":"2rem","margin":"2rem","gutter-mobile":"1rem","gutter":"1.5rem","space-md":"1rem"},fontFamily:{"headline-md":["Hanken Grotesk"],"label-lg":["Inter"],"headline-xl":["Hanken Grotesk"],"body-sm":["Inter"],"label-md":["Inter"],"body-md":["Inter"],"body-lg":["Inter"],"code-md":["JetBrains Mono"],"headline-lg-mobile":["Hanken Grotesk"],"headline-xl-mobile":["Hanken Grotesk"],"headline-lg":["Hanken Grotesk"],"body-xs":["Inter"],"code-sm":["JetBrains Mono"],"headline-sm":["Hanken Grotesk"]},fontSize:{"headline-md":["24px",{"lineHeight":"32px","letterSpacing":"-0.01em","fontWeight":"600"}],"label-lg":["14px",{"lineHeight":"20px","fontWeight":"500"}],"headline-xl":["40px",{"lineHeight":"48px","letterSpacing":"-0.02em","fontWeight":"700"}],"body-sm":["14px",{"lineHeight":"20px","fontWeight":"400"}],"label-md":["12px",{"lineHeight":"16px","fontWeight":"500"}],"body-md":["16px",{"lineHeight":"24px","fontWeight":"400"}],"body-lg":["18px",{"lineHeight":"28px","fontWeight":"400"}],"code-md":["13px",{"lineHeight":"18px","letterSpacing":"-0.01em","fontWeight":"500"}],"headline-lg-mobile":["24px",{"lineHeight":"32px","letterSpacing":"-0.01em","fontWeight":"600"}],"headline-xl-mobile":["30px",{"lineHeight":"38px","letterSpacing":"-0.015em","fontWeight":"700"}],"headline-lg":["32px",{"lineHeight":"40px","letterSpacing":"-0.015em","fontWeight":"600"}],"body-xs":["12px",{"lineHeight":"16px","fontWeight":"400"}],"code-sm":["11px",{"lineHeight":"16px","letterSpacing":"0em","fontWeight":"500"}],"headline-sm":["20px",{"lineHeight":"28px","fontWeight":"600"}]}}}}</script></head><body class="bg-surface font-body-md text-on-surface antialiased"><header class="fixed top-0 left-0 right-0 z-50 bg-surface/85 backdrop-blur-xl shadow-[0_1px_8px_rgba(11,28,48,0.04)]"><div class="h-16 w-full max-w-[1440px] mx-auto px-margin flex items-center justify-between gap-space-md"><div class="flex items-center gap-space-lg"><a class="flex items-center gap-space-sm group" data-path="dashboard-de-videos" href="#"><span class="font-headline-md text-headline-md tracking-tight text-on-surface">FIAP <span class="text-primary">X</span></span><span class="hidden sm:inline-block w-px h-5 bg-outline-variant"></span><span class="hidden sm:inline-block font-body-sm text-body-sm text-secondary font-medium tracking-normal">Processador de Vídeos</span></a><nav class="hidden md:flex items-center gap-space-xs" data-active-classes="bg-secondary-container text-on-secondary-fixed font-semibold rounded-lg"><a class="px-space-md py-space-xs font-label-lg text-label-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high rounded-lg transition-colors" data-path="dashboard-de-videos" href="#">Painel de Vídeos</a><a class="px-space-md py-space-xs font-label-lg text-label-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high rounded-lg transition-colors" data-path="fila-de-processamento" href="#">Fila de Tarefas</a><a class="px-space-md py-space-xs font-label-lg text-label-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high rounded-lg transition-colors" data-path="configuracoes-de-extracao" href="#">Parâmetros de Extração</a></nav></div><div class="flex items-center gap-space-md"><div class="hidden lg:flex items-center gap-space-xs px-space-sm py-0.5 rounded-full bg-surface-container border border-outline-variant"><span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span><span class="font-code-sm text-code-sm uppercase tracking-wider text-secondary font-medium">Pipeline Ativo</span></div><div class="flex items-center gap-space-sm pl-space-xs"><div class="text-right hidden sm:block"><p class="font-label-md text-label-md text-on-surface font-semibold leading-tight">Demo Usuário</p><p class="font-body-xs text-body-xs text-secondary leading-tight">demo@fiapx.com</p></div><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center shadow-sm"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div><a class="ml-space-xs flex items-center gap-1 px-space-sm py-1.5 rounded-lg text-on-surface-variant hover:text-error hover:bg-error-container/40 font-label-lg text-label-lg transition-colors" data-path="login" href="#" title="Encerrar sessão"><span class="material-symbols-outlined text-[18px]">logout</span><span class="hidden md:inline font-label-lg text-label-lg">Sair</span></a></div></div></div></header><main class="w-full pt-16 bg-surface"><div class="w-full max-w-[1440px] mx-auto px-margin-mobile md:px-margin py-space-lg"><div class="w-full bg-surface-container-lowest rounded-2xl shadow-[0_1px_3px_0_rgba(15,23,42,0.04),0_1px_2px_-1px_rgba(15,23,42,0.02)] p-space-lg md:p-space-xl border border-outline-variant/60"><div class="flex flex-col w-full">
+<!-- Top Telemetry & User Status Bar -->
+<section class="flex flex-col lg:flex-row lg:items-center justify-between gap-space-md p-space-md bg-surface-container-low rounded-xl mb-space-lg">
+<div class="flex flex-col sm:flex-row sm:items-center gap-space-md min-w-0">
+<div class="flex items-center gap-space-sm">
+<span class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-secondary-container text-on-secondary-fixed">
+<span class="material-symbols-outlined text-[18px]">account_circle</span>
+</span>
+<div class="min-w-0">
+<p class="font-label-lg text-label-lg text-on-surface truncate">
+            Olá, <strong class="font-semibold">Demo Usuário</strong> <span class="text-secondary font-normal">(demo@fiapx.com)</span>
+</p>
+</div>
+</div>
+<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-surface-container-lowest shadow-sm self-start sm:self-auto">
+<span class="relative flex h-2 w-2">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+</span>
+<span class="font-code-sm text-code-sm text-secondary font-medium tracking-tight">Sincronização ativa (polling <span id="polling-clock">5s</span>)</span>
+</div>
+</div>
+<!-- Quick Stats Metric Cluster -->
+<div class="flex flex-wrap items-center gap-space-xs text-on-surface">
+<div class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-surface-container-lowest shadow-sm">
+<span class="material-symbols-outlined text-[16px] text-emerald-600">task_alt</span>
+<span class="font-code-sm text-code-sm font-semibold">4</span>
+<span class="font-body-xs text-body-xs text-secondary">processados</span>
+</div>
+<div class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-surface-container-lowest shadow-sm">
+<span class="material-symbols-outlined text-[16px] text-amber-500 animate-spin">sync</span>
+<span class="font-code-sm text-code-sm font-semibold">1</span>
+<span class="font-body-xs text-body-xs text-secondary">em processamento</span>
+</div>
+<div class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-secondary-container/50 shadow-sm">
+<span class="material-symbols-outlined text-[16px] text-primary">burst_mode</span>
+<span class="font-code-sm text-code-sm font-semibold text-primary">14.820</span>
+<span class="font-body-xs text-body-xs text-secondary">frames extraídos</span>
+</div>
+</div>
+</section>
+<!-- Drag and Drop Video Ingestion Engine -->
+<section class="mb-space-xl">
+<div class="relative group cursor-pointer rounded-2xl bg-surface-container-lowest p-space-xl text-center transition-all duration-300 shadow-[0_4px_20px_-4px_rgba(11,28,48,0.05)] hover:shadow-[0_8px_30px_-6px_rgba(184,0,67,0.12)] hover:bg-primary/[0.015]" id="dropzone" style="outline: 2px dashed #cbd5e1; outline-offset: -8px;">
+<input accept=".mp4,.avi,.mov,.mkv,.wmv,.flv,.webm" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" id="file-uploader" multiple="" type="file"/>
+<div class="max-w-2xl mx-auto flex flex-col items-center pointer-events-none">
+<div class="w-16 h-16 rounded-2xl bg-surface-container flex items-center justify-center text-primary group-hover:scale-110 group-hover:bg-primary group-hover:text-on-primary transition-all duration-300 mb-space-md shadow-sm">
+<span class="material-symbols-outlined text-[32px]">video_file</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface mb-space-xs font-semibold">
+          Arraste e solte seus vídeos aqui ou clique para selecionar
+        </h3>
+<p class="font-body-sm text-body-sm text-secondary mb-space-lg max-w-lg">
+          Formatos aceitos: <span class="font-code-sm text-code-sm font-medium text-on-surface">.mp4, .avi, .mov, .mkv, .wmv, .flv, .webm</span> • Tamanho máximo: <span class="font-code-sm text-code-sm font-medium text-on-surface">500 MB</span> por arquivo
+        </p>
+<button class="inline-flex items-center gap-2 px-space-lg py-2.5 rounded-lg bg-primary text-on-primary font-label-lg text-label-lg font-medium shadow-md shadow-primary/20 hover:brightness-110 active:scale-[0.98] transition-all" type="button">
+<span class="material-symbols-outlined text-[20px]">upload_file</span>
+<span>Selecionar arquivos do computador</span>
+</button>
+<div class="flex items-center gap-space-md mt-space-lg pt-space-md w-full justify-center text-secondary font-body-xs text-body-xs">
+<span class="inline-flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-emerald-600">verified_user</span>
+            Envio direto e seguro (S3 presigned POST)
+          </span>
+<span class="inline-block w-1 h-1 rounded-full bg-secondary-fixed-dim"></span>
+<span class="inline-flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-primary">speed</span>
+            Processamento assíncrono a 1 frame/segundo
+          </span>
+</div>
+</div>
+</div>
+</section>
+<!-- Concurrent Active Uploads Pipeline Section -->
+<section class="mb-space-xl">
+<div class="flex items-center justify-between mb-space-md">
+<div class="flex items-center gap-space-sm">
+<h2 class="font-headline-sm text-headline-sm text-on-surface font-semibold">Uploads em Andamento</h2>
+<span class="px-2 py-0.5 rounded-full bg-secondary-container font-code-sm text-code-sm text-on-secondary-fixed font-semibold">2 ativos</span>
+</div>
+<span class="font-code-sm text-code-sm text-secondary">Máximo 3 simultâneos</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-space-md">
+<!-- Active Upload 1 -->
+<div class="p-space-md rounded-xl bg-surface-container-low shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow">
+<div>
+<div class="flex items-start justify-between gap-space-sm mb-space-xs">
+<div class="flex items-center gap-2 min-w-0">
+<span class="material-symbols-outlined text-primary text-[20px] shrink-0">movie</span>
+<p class="font-label-lg text-label-lg text-on-surface font-medium truncate" title="aula_machine_learning_01.mp4">
+                aula_machine_learning_01.mp4
+              </p>
+</div>
+<span class="font-code-sm text-code-sm text-primary font-bold">78%</span>
+</div>
+<div class="flex items-center justify-between text-secondary font-code-sm text-code-sm mb-space-sm">
+<span>111.0 MB / 142.4 MB</span>
+<span class="text-on-surface-variant font-medium">8.4 MB/s</span>
+</div>
+</div>
+<div class="w-full bg-surface-container-highest rounded-full h-1.5 overflow-hidden">
+<div class="bg-primary h-1.5 rounded-full transition-all duration-300" style="width: 78%"></div>
+</div>
+</div>
+<!-- Active Upload 2 -->
+<div class="p-space-md rounded-xl bg-surface-container-low shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow">
+<div>
+<div class="flex items-start justify-between gap-space-sm mb-space-xs">
+<div class="flex items-center gap-2 min-w-0">
+<span class="material-symbols-outlined text-primary text-[20px] shrink-0">movie</span>
+<p class="font-label-lg text-label-lg text-on-surface font-medium truncate" title="apresentacao_projeto_fiap.mov">
+                apresentacao_projeto_fiap.mov
+              </p>
+</div>
+<span class="font-code-sm text-code-sm text-primary font-bold">34%</span>
+</div>
+<div class="flex items-center justify-between text-secondary font-code-sm text-code-sm mb-space-sm">
+<span>30.2 MB / 89.1 MB</span>
+<span class="text-on-surface-variant font-medium">6.2 MB/s</span>
+</div>
+</div>
+<div class="w-full bg-surface-container-highest rounded-full h-1.5 overflow-hidden">
+<div class="bg-primary h-1.5 rounded-full transition-all duration-300" style="width: 34%"></div>
+</div>
+</div>
+<!-- Queued Upload -->
+<div class="p-space-md rounded-xl bg-surface-container-low/50 shadow-sm flex flex-col justify-between">
+<div>
+<div class="flex items-start justify-between gap-space-sm mb-space-xs">
+<div class="flex items-center gap-2 min-w-0">
+<span class="material-symbols-outlined text-secondary text-[20px] shrink-0">hourglass_top</span>
+<p class="font-label-lg text-label-lg text-secondary font-medium truncate" title="demo_preview_erro.mkv">
+                demo_preview_erro.mkv
+              </p>
+</div>
+<span class="px-2 py-0.5 rounded-full bg-secondary-container/60 text-on-secondary-fixed font-code-sm text-code-sm">Aguardando</span>
+</div>
+<div class="flex items-center justify-between text-secondary font-code-sm text-code-sm mb-space-sm">
+<span>210.0 MB</span>
+<span>Na fila de envio</span>
+</div>
+</div>
+<div class="w-full bg-surface-container-highest rounded-full h-1.5 overflow-hidden">
+<div class="bg-secondary-fixed-dim h-1.5 rounded-full w-0"></div>
+</div>
+</div>
+</div>
+</section>
+<!-- Video Registry & Frame Archives Section -->
+<section class="flex flex-col w-full">
+<!-- Header Controls & Filters -->
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-space-md mb-space-lg">
+<div class="flex items-center gap-space-sm">
+<h2 class="font-headline-sm text-headline-sm text-on-surface font-semibold">Meus vídeos</h2>
+<span class="px-2.5 py-0.5 rounded-full bg-primary/10 text-primary font-code-sm text-code-sm font-bold">6</span>
+</div>
+<div class="flex flex-wrap items-center gap-space-sm">
+<!-- Status Dropdown Filter -->
+<div class="relative inline-block text-left">
+<select class="h-10 pl-3 pr-8 rounded-lg bg-surface-container-lowest text-on-surface font-body-sm text-body-sm shadow-sm appearance-none cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary/20" id="status-filter">
+<option value="ALL">Todos os status</option>
+<option value="PENDING_UPLOAD">Aguardando envio</option>
+<option value="QUEUED">Na fila</option>
+<option value="PROCESSING">Processando</option>
+<option value="COMPLETED">Concluído</option>
+<option value="FAILED">Falhou</option>
+<option value="EXPIRED">Expirado</option>
+</select>
+<span class="material-symbols-outlined text-[18px] text-secondary pointer-events-none absolute right-2.5 top-1/2 -translate-y-1/2">expand_more</span>
+</div>
+<!-- Search Input -->
+<div class="relative min-w-[240px]">
+<span class="material-symbols-outlined text-[18px] text-secondary absolute left-3 top-1/2 -translate-y-1/2">search</span>
+<input class="h-10 w-full pl-9 pr-3 rounded-lg bg-surface-container-lowest text-on-surface placeholder:text-secondary/70 font-body-sm text-body-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all" id="video-search" placeholder="Buscar por nome do arquivo..." type="text"/>
+</div>
+<!-- Refresh Countdown Button -->
+<button class="h-10 px-3 rounded-lg bg-surface-container-lowest text-on-surface hover:bg-surface-container-high transition-colors shadow-sm flex items-center gap-1.5" id="refresh-btn" title="Forçar atualização" type="button">
+<span class="material-symbols-outlined text-[18px] text-secondary">refresh</span>
+<span class="font-code-sm text-code-sm text-secondary font-medium">5s</span>
+</button>
+</div>
+</div>
+<!-- Table Container -->
+<div class="w-full overflow-x-auto rounded-xl shadow-sm bg-surface-container-lowest">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low/75 text-secondary font-label-md text-label-md uppercase tracking-wider">
+<th class="py-3.5 px-space-md font-semibold">Vídeo</th>
+<th class="py-3.5 px-space-md font-semibold">Data de Envio</th>
+<th class="py-3.5 px-space-md font-semibold">Status</th>
+<th class="py-3.5 px-space-md font-semibold">Frames Extraídos</th>
+<th class="py-3.5 px-space-md text-right font-semibold">Ações</th>
+</tr>
+</thead>
+<tbody class="font-body-sm text-body-sm text-on-surface divide-y-0">
+<!-- Item 1: COMPLETED -->
+<tr class="hover:bg-surface-container-low/50 transition-colors group">
+<td class="py-space-md px-space-md">
+<div class="flex items-center gap-space-sm">
+<div class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center text-primary shrink-0">
+<span class="material-symbols-outlined text-[22px]">smart_display</span>
+</div>
+<div class="min-w-0">
+<p class="font-label-lg text-label-lg font-semibold text-on-surface truncate">modulo_01_introducao_visao_computacional.mp4</p>
+<p class="font-code-sm text-code-sm text-secondary">142.4 MB</p>
+</div>
+</div>
+</td>
+<td class="py-space-md px-space-md text-secondary font-body-sm">
+              24/10/2024 às 14:32
+            </td>
+<td class="py-space-md px-space-md">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 font-code-sm text-code-sm font-semibold tracking-wide">
+<span class="material-symbols-outlined text-[14px]">check_circle</span>
+                CONCLUÍDO
+              </span>
+</td>
+<td class="py-space-md px-space-md font-code-sm text-code-sm font-medium text-on-surface">
+              1.420 frames
+            </td>
+<td class="py-space-md px-space-md text-right">
+<button class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-primary text-on-primary font-label-md text-label-md font-medium hover:brightness-110 active:scale-95 transition-all shadow-sm" type="button">
+<span class="material-symbols-outlined text-[16px]">download</span>
+<span>Baixar ZIP</span>
+</button>
+</td>
+</tr>
+<!-- Item 2: PROCESSING -->
+<tr class="hover:bg-surface-container-low/50 transition-colors group bg-amber-50/20">
+<td class="py-space-md px-space-md">
+<div class="flex items-center gap-space-sm">
+<div class="w-10 h-10 rounded-lg bg-amber-100/60 flex items-center justify-center text-amber-700 shrink-0">
+<span class="material-symbols-outlined text-[22px]">hourglass_empty</span>
+</div>
+<div class="min-w-0">
+<p class="font-label-lg text-label-lg font-semibold text-on-surface truncate">palestra_arquitetura_microsservicos.mov</p>
+<p class="font-code-sm text-code-sm text-secondary">310.8 MB</p>
+</div>
+</div>
+</td>
+<td class="py-space-md px-space-md text-secondary font-body-sm">
+              24/10/2024 às 15:04
+            </td>
+<td class="py-space-md px-space-md">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-amber-50 text-amber-800 font-code-sm text-code-sm font-semibold tracking-wide">
+<span class="material-symbols-outlined text-[14px] animate-spin">progress_activity</span>
+                PROCESSANDO (1 FPS)
+              </span>
+</td>
+<td class="py-space-md px-space-md font-code-sm text-code-sm text-secondary">
+              -
+            </td>
+<td class="py-space-md px-space-md text-right">
+<button class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-surface-container text-secondary font-label-md text-label-md font-medium cursor-not-allowed opacity-80" disabled="" type="button">
+<span class="material-symbols-outlined text-[16px] animate-spin">sync</span>
+<span>Processando...</span>
+</button>
+</td>
+</tr>
+<!-- Item 3: QUEUED -->
+<tr class="hover:bg-surface-container-low/50 transition-colors group">
+<td class="py-space-md px-space-md">
+<div class="flex items-center gap-space-sm">
+<div class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center text-secondary shrink-0">
+<span class="material-symbols-outlined text-[22px]">video_settings</span>
+</div>
+<div class="min-w-0">
+<p class="font-label-lg text-label-lg font-semibold text-on-surface truncate">workshop_deep_learning_hands_on.mp4</p>
+<p class="font-code-sm text-code-sm text-secondary">420.0 MB</p>
+</div>
+</div>
+</td>
+<td class="py-space-md px-space-md text-secondary font-body-sm">
+              24/10/2024 às 15:10
+            </td>
+<td class="py-space-md px-space-md">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-blue-50 text-blue-700 font-code-sm text-code-sm font-semibold tracking-wide">
+<span class="material-symbols-outlined text-[14px]">schedule</span>
+                NA FILA
+              </span>
+</td>
+<td class="py-space-md px-space-md font-code-sm text-code-sm text-secondary">
+              -
+            </td>
+<td class="py-space-md px-space-md text-right">
+<span class="font-label-md text-label-md text-secondary italic">Aguardando worker</span>
+</td>
+</tr>
+<!-- Item 4: FAILED (with error explanation) -->
+<tr class="hover:bg-surface-container-low/50 transition-colors group bg-rose-50/20">
+<td class="py-space-md px-space-md">
+<div class="flex items-center gap-space-sm">
+<div class="w-10 h-10 rounded-lg bg-rose-100 flex items-center justify-center text-rose-700 shrink-0">
+<span class="material-symbols-outlined text-[22px]">broken_image</span>
+</div>
+<div class="min-w-0">
+<p class="font-label-lg text-label-lg font-semibold text-on-surface truncate">gravacao_camera_defeito_codec.mkv</p>
+<p class="font-code-sm text-code-sm text-secondary">18.2 MB</p>
+</div>
+</div>
+</td>
+<td class="py-space-md px-space-md text-secondary font-body-sm">
+              24/10/2024 às 13:12
+            </td>
+<td class="py-space-md px-space-md">
+<div class="flex flex-col items-start gap-1">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-rose-50 text-rose-700 font-code-sm text-code-sm font-semibold tracking-wide">
+<span class="material-symbols-outlined text-[14px]">warning</span>
+                  FALHOU
+                </span>
+<span class="font-body-xs text-body-xs text-rose-600 max-w-xs truncate" title="O arquivo de vídeo está corrompido ou em um formato que não conseguimos ler">
+                  O arquivo de vídeo está corrompido ou em um formato inválido
+                </span>
+</div>
+</td>
+<td class="py-space-md px-space-md font-code-sm text-code-sm text-secondary">
+              -
+            </td>
+<td class="py-space-md px-space-md text-right">
+<button class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-error-container/60 hover:bg-error-container text-on-error-container font-label-md text-label-md font-medium transition-colors" onclick="alert('Motivo da falha: Demuxer error (FFmpeg code -1094995529). O container MKV não contém faixas de vídeo decodificáveis.')" type="button">
+<span class="material-symbols-outlined text-[16px]">info</span>
+<span>Ver detalhes</span>
+</button>
+</td>
+</tr>
+<!-- Item 5: COMPLETED -->
+<tr class="hover:bg-surface-container-low/50 transition-colors group">
+<td class="py-space-md px-space-md">
+<div class="flex items-center gap-space-sm">
+<div class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center text-primary shrink-0">
+<span class="material-symbols-outlined text-[22px]">smart_display</span>
+</div>
+<div class="min-w-0">
+<p class="font-label-lg text-label-lg font-semibold text-on-surface truncate">demo_dataset_robocall_ident.mp4</p>
+<p class="font-code-sm text-code-sm text-secondary">89.0 MB</p>
+</div>
+</div>
+</td>
+<td class="py-space-md px-space-md text-secondary font-body-sm">
+              23/10/2024 às 19:40
+            </td>
+<td class="py-space-md px-space-md">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 font-code-sm text-code-sm font-semibold tracking-wide">
+<span class="material-symbols-outlined text-[14px]">check_circle</span>
+                CONCLUÍDO
+              </span>
+</td>
+<td class="py-space-md px-space-md font-code-sm text-code-sm font-medium text-on-surface">
+              890 frames
+            </td>
+<td class="py-space-md px-space-md text-right">
+<button class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-primary text-on-primary font-label-md text-label-md font-medium hover:brightness-110 active:scale-95 transition-all shadow-sm" type="button">
+<span class="material-symbols-outlined text-[16px]">download</span>
+<span>Baixar ZIP</span>
+</button>
+</td>
+</tr>
+<!-- Item 6: PENDING_UPLOAD -->
+<tr class="hover:bg-surface-container-low/50 transition-colors group">
+<td class="py-space-md px-space-md">
+<div class="flex items-center gap-space-sm">
+<div class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center text-secondary shrink-0">
+<span class="material-symbols-outlined text-[22px]">cloud_sync</span>
+</div>
+<div class="min-w-0">
+<p class="font-label-lg text-label-lg font-semibold text-on-surface truncate">avaliacao_pratica_turma_32.webm</p>
+<p class="font-code-sm text-code-sm text-secondary">55.6 MB</p>
+</div>
+</div>
+</td>
+<td class="py-space-md px-space-md text-secondary font-body-sm">
+              23/10/2024 às 18:15
+            </td>
+<td class="py-space-md px-space-md">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-slate-100 text-slate-700 font-code-sm text-code-sm font-semibold tracking-wide">
+<span class="material-symbols-outlined text-[14px]">cloud_upload</span>
+                AGUARDANDO ENVIO
+              </span>
+</td>
+<td class="py-space-md px-space-md font-code-sm text-code-sm text-secondary">
+              -
+            </td>
+<td class="py-space-md px-space-md text-right">
+<button class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-surface-container-high hover:bg-secondary-container text-on-secondary-fixed font-label-md text-label-md font-medium transition-colors" type="button">
+<span class="material-symbols-outlined text-[16px]">play_arrow</span>
+<span>Iniciar Envio</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Data Controls & Pagination Footer -->
+<div class="flex flex-col sm:flex-row items-center justify-between gap-space-md mt-space-lg text-secondary">
+<div class="flex items-center gap-space-md font-body-sm text-body-sm">
+<p>Mostrando <strong class="text-on-surface font-semibold">1 a 6</strong> de <strong class="text-on-surface font-semibold">6</strong> vídeos</p>
+<div class="flex items-center gap-2">
+<label class="font-body-xs text-body-xs" for="items-per-page">Itens por página:</label>
+<select class="h-8 px-2 rounded-md bg-surface-container-low text-on-surface font-body-xs text-body-xs focus:outline-none" id="items-per-page">
+<option value="10">10</option>
+<option value="25">25</option>
+<option value="50">50</option>
+</select>
+</div>
+</div>
+<!-- Pagination Buttons -->
+<nav class="flex items-center gap-1">
+<button class="w-8 h-8 rounded-lg flex items-center justify-center text-secondary opacity-40 cursor-not-allowed" disabled="">
+<span class="material-symbols-outlined text-[18px]">chevron_left</span>
+</button>
+<button class="w-8 h-8 rounded-lg bg-primary text-on-primary font-label-md text-label-md font-semibold flex items-center justify-center shadow-sm">
+          1
+        </button>
+<button class="w-8 h-8 rounded-lg text-on-surface hover:bg-surface-container-high font-label-md text-label-md flex items-center justify-center transition-colors">
+          2
+        </button>
+<button class="w-8 h-8 rounded-lg flex items-center justify-center text-on-surface hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined text-[18px]">chevron_right</span>
+</button>
+</nav>
+</div>
+</section>
+</div>
+<script>
+  // Dynamic 5-second polling countdown simulation
+  (function initLivePolling() {
+    let secondsLeft = 5;
+    const pollingClock = document.getElementById('polling-clock');
+    const refreshBtnSpan = document.querySelector('#refresh-btn span:last-child');
+
+    setInterval(() => {
+      secondsLeft -= 1;
+      if (secondsLeft <= 0) {
+        secondsLeft = 5;
+      }
+      if (pollingClock) pollingClock.textContent = secondsLeft + 's';
+      if (refreshBtnSpan) refreshBtnSpan.textContent = secondsLeft + 's';
+    }, 1000);
+  })();
+
+  // Visual drag feedback for ingestion engine
+  (function initDropzoneEvents() {
+    const dropzone = document.getElementById('dropzone');
+    const fileInput = document.getElementById('file-uploader');
+
+    if (!dropzone || !fileInput) return;
+
+    ['dragenter', 'dragover'].forEach(eventName => {
+      dropzone.addEventListener(eventName, (e) => {
+        e.preventDefault();
+        dropzone.style.outlineColor = '#b80043';
+        dropzone.classList.add('bg-primary/5');
+      }, false);
+    });
+
+    ['dragleave', 'drop'].forEach(eventName => {
+      dropzone.addEventListener(eventName, (e) => {
+        e.preventDefault();
+        dropzone.style.outlineColor = '#cbd5e1';
+        dropzone.classList.remove('bg-primary/5');
+      }, false);
+    });
+  })();
+</script></div></div></main><footer class="w-full bg-surface-container-lowest/60 border-t border-outline-variant/40 py-space-md mt-space-xl"><div class="w-full max-w-[1440px] mx-auto px-margin flex flex-col sm:flex-row items-center justify-between gap-space-sm text-secondary font-body-xs text-body-xs"><div>© 2025 FIAP X Pipeline Architecture. Todos os direitos reservados.</div><div class="flex items-center gap-space-md"><span class="font-code-sm text-code-sm text-secondary">v2.4.0-stable</span><span class="inline-block w-1.5 h-1.5 rounded-full bg-secondary-fixed-dim"></span><span>SLA Operacional 99.98%</span></div></div></footer></body></html>
