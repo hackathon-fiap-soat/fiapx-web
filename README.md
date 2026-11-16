@@ -22,6 +22,8 @@ _A definir nas próximas etapas do plano._
 ## Contribuição
 
 - A branch `main` é protegida: toda mudança entra por Pull Request com revisão de um code owner.
+- O `README.md` deve estar sempre atualizado: toda mudança que afete propósito, stack, como rodar/testar,
+  variáveis de ambiente ou links atualiza este arquivo no mesmo PR.
 - Nunca commitar segredos (`.env`, chaves, tokens). Use `.env.example` com valores fictícios.
 
 ## Licença
