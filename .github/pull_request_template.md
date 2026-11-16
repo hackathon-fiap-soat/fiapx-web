@@ -14,6 +14,7 @@
 
 - [ ] Testes adicionados ou atualizados, e passando localmente
 - [ ] Cobertura mantida em ≥ 80% (quando houver código)
+- [ ] `README.md` atualizado (propósito, stack, como rodar/testar, variáveis, links), se a mudança afetar algum desses pontos
 - [ ] Documentação atualizada no `fiapx-docs` (ADR, RFC, contratos, diagramas), se aplicável
 - [ ] Contratos de mensagens/API alterados de forma versionada e compatível
 - [ ] Nenhum segredo commitado (`.env`, chaves, tokens)
