@@ -27,9 +27,14 @@ referência visual da implementação em React (Etapa 6.5); não é código de p
 | Login | `login_fiap_x/` | Implementar |
 | Cadastro | `cadastro_fiap_x/` | Implementar |
 | Painel de vídeos (upload + lista) | `dashboard_de_v_deos_fiap_x/` | Implementar |
-| Recuperar senha | `recuperar_senha_fiap_x/` | Fora do escopo atual (sem endpoint no `fiapx-auth`) |
-| Alterar senha | `alterar_senha_fiap_x/` | Fora do escopo atual (sem endpoint no `fiapx-auth`) |
-| Editar perfil | `editar_perfil_fiap_x/` | Fora do escopo atual (sem endpoint no `fiapx-auth`) |
+| Recuperar senha (`/recuperar-senha`) | `recuperar_senha_fiap_x/` | Implementar |
+| Criar nova senha pelo link (`/redefinir-senha?token=`) | `alterar_senha_fiap_x/` | Implementar |
+| Trocar senha logado (`/conta/senha`) | Seção "Segurança & Troca de Senha" de `editar_perfil_fiap_x/` | Implementar só essa seção |
+| Editar perfil (demais seções) | `editar_perfil_fiap_x/` | Fora do escopo (sem endpoint no `fiapx-auth`) |
+
+As telas de senha usam os endpoints de recuperação e troca de senha do `fiapx-auth`
+([ADR-017](https://github.com/hackathon-fiap-soat/fiapx-docs/blob/main/04-adrs/ADR-017-recuperacao-e-troca-de-senha.md)).
+A política de senha do layout (8 a 72 caracteres, com maiúscula, número e símbolo) vale também no cadastro.
 
 Elementos do painel que a API atual não suporta e que serão adaptados ou removidos na implementação:
 
