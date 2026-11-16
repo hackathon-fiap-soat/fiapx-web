@@ -57,6 +57,8 @@ Elementos do painel que a API atual não suporta e que serão adaptados ou remov
 - O `README.md` deve estar sempre atualizado: toda mudança que afete propósito, stack, como rodar/testar,
   variáveis de ambiente ou links atualiza este arquivo no mesmo PR.
 - Nunca commitar segredos (`.env`, chaves, tokens). Use `.env.example` com valores fictícios.
+- Contexto para o Claude Code: [`CLAUDE.md`](CLAUDE.md) (projeto, regras e o papel deste repositório) e skills em
+  [`.claude/skills/`](.claude/skills/) com os procedimentos deste repositório.
 
 ## Licença
 
