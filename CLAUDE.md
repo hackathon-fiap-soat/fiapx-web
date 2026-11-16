@@ -33,8 +33,9 @@ Repositórios na organização [hackathon-fiap-soat](https://github.com/hackatho
    Storytelling, ADRs, RFCs, contratos das mensagens (`contracts/`), OpenAPI (`api/openapi.yaml`), modelo
    de dados, ambientes, [parâmetros SSM](https://github.com/hackathon-fiap-soat/fiapx-docs/blob/main/06-deploy/parametros-ssm.md) e
    [fluxo de deploy](https://github.com/hackathon-fiap-soat/fiapx-docs/blob/main/06-deploy/fluxo-de-deploy.md).
-2. **`../Projeto-hackton.md`**: especificação completa do time (decisões, plano em etapas §12, regras §13).
-   Fica na pasta de trabalho local, fora dos repositórios. Se não existir na máquina, use o `fiapx-docs`.
+2. **[Especificação](https://github.com/hackathon-fiap-soat/fiapx-docs/blob/main/00-especificacao/Projeto-hackton.md)** (`fiapx-docs/00-especificacao/Projeto-hackton.md`):
+   especificação completa do time (decisões, plano em etapas §12, regras §13). Na pasta de trabalho local,
+   `../Projeto-hackton.md` é um link simbólico para ela.
 3. **[Painel de progresso](https://claude.ai/artifact/BNesZU4D21nB7cqUoQp2rL)**: tarefas por etapa e status. Atualize ao concluir uma tarefa.
 
 Se o código e a documentação divergirem, ou algo estiver ambíguo, **pergunte ao time** antes de assumir.
@@ -89,8 +90,8 @@ não suporta.
 - Telas: login, cadastro, painel (upload múltiplo + lista + download), recuperar senha, criar nova senha
   pelo link e trocar senha logado.
 - Modo mock com MSW. Testes: Vitest + Testing Library (≥ 80%) e um E2E com Playwright.
-- Contratos HTTP em `fiapx-docs/api/openapi.yaml`; prompt e regras de UX em `../Prompt-layout-web.md`
-  (pasta de trabalho local).
+- Contratos HTTP em `fiapx-docs/api/openapi.yaml`; prompt e regras de UX em
+  `fiapx-docs/00-especificacao/Prompt-layout-web.md`.
 
 **DoD da Etapa 6.5:** no ambiente local, cadastro → login → upload de 3 vídeos ao mesmo tempo → status
 atualizando sozinho → download dos zips.
