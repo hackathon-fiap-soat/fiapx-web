@@ -12,7 +12,7 @@ description: Passo a passo para implementar uma tela do fiapx-web em React a par
    badges de status, componentes). O HTML do Stitch é referência, não código de produção: reescreva em
    componentes React + Tailwind, sem copiar o CDN.
 3. **Contrato:** endpoints, payloads e erros em `fiapx-docs/api/openapi.yaml`. Regras de UX em
-   `../Prompt-layout-web.md` (pasta de trabalho local), se existir.
+   `fiapx-docs/00-especificacao/Prompt-layout-web.md`.
 4. **Comportamentos obrigatórios:**
    - 401 ou 403 da API → limpa a sessão e volta ao login ("sessão expirada");
    - erros 422 mostram a mensagem genérica da API, sem revelar se o e-mail existe;
