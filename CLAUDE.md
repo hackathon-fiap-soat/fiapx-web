@@ -21,7 +21,7 @@ Repositórios na organização [hackathon-fiap-soat](https://github.com/hackatho
 |---|---|---|---|
 | [`fiapx-docs`](https://github.com/hackathon-fiap-soat/fiapx-docs) | Documentação: arquitetura, ADRs, RFCs, contratos, OpenAPI, diagramas e entrega | Markdown + Mermaid + JSON Schema | Etapa 1 ✅ |
 | [`fiapx-infra`](https://github.com/hackathon-fiap-soat/fiapx-infra) | VPC, EKS, Aurora, S3, SQS, SES, ECR, API Gateway, OIDC, SSM, orquestrador de deploy e ambiente local | Terraform + Helm + docker-compose | Etapa 2 ✅ (local), Etapas 7–8 |
-| [`fiapx-auth`](https://github.com/hackathon-fiap-soat/fiapx-auth) | Lambdas de cadastro, login, senha e authorizer JWT | Node.js 24 + Terraform | Etapa 3 |
+| [`fiapx-auth`](https://github.com/hackathon-fiap-soat/fiapx-auth) | Lambdas de cadastro, login, senha e authorizer JWT | Node.js 24 + Terraform | Etapa 3 ✅ |
 | [`fiapx-video-api`](https://github.com/hackathon-fiap-soat/fiapx-video-api) | API de vídeos, URLs pré-assinadas, orquestrador da SAGA e outbox | PHP 8.4.27 + Laravel 13 no EKS | Etapa 4 |
 | [`fiapx-video-processor`](https://github.com/hackathon-fiap-soat/fiapx-video-processor) | Worker que extrai os frames com ffmpeg e gera o zip | PHP 8.4.27 + Laravel 13 no EKS + KEDA | Etapa 5 |
 | [`fiapx-notification`](https://github.com/hackathon-fiap-soat/fiapx-notification) | E-mails pelo SES com histórico e idempotência no DynamoDB | Node.js 24 + Terraform | Etapa 6 |
@@ -43,7 +43,8 @@ Decisão nova ou que contrarie uma existente vira ADR no `fiapx-docs`.
 
 ## Andamento (2026-11-16)
 
-Etapas 0 (repositórios), 1 (documentação) e 2 (ambiente local) concluídas. Próxima: Etapa 3 (`fiapx-auth`).
+Etapas 0 (repositórios), 1 (documentação), 2 (ambiente local) e 3 (`fiapx-auth`) concluídas. Próxima:
+Etapa 4 (`fiapx-video-api`).
 Ordem do plano: 3 auth → 4 video-api → 5 processor → 6 notification → 6.5 web → 7 infra AWS 🛑 → 8 CI/CD →
 9 observabilidade → 10 carga e entregáveis 🛑. O estado atualizado está no painel.
 
