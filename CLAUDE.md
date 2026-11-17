@@ -71,7 +71,8 @@ obrigatórios). Ordem do plano: 3 auth → 4 video-api → 5 processor → 6 not
   (`06-deploy/ambientes.md#restrições-conhecidas-do-lab`).
 - **Todo merge na `main` faz deploy** do serviço (decisão do time). O ambiente `prod` é destruído fora das
   demonstrações; nesse período o deploy do merge falha ao ler o SSM, e é esperado.
-- `main` protegida: só por PR, aprovação opcional, squash merge, histórico linear. Use a skill `fiapx-pr`.
+- `main` protegida: só por PR, aprovação opcional, **checks obrigatórios** (testes, lint e Quality Gate do SonarCloud),
+  squash merge, histórico linear. Use a skill `fiapx-pr`.
 - Conventional Commits; textos, README e mensagens ao usuário em **português do Brasil** com acentuação;
   identificadores de código em inglês.
 - DDD + Clean Architecture: domínio sem framework nem SDK da AWS; dependências apontam para dentro.
