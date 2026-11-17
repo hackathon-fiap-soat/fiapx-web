@@ -1,6 +1,6 @@
 # fiapx-web
 
-Front-end do FIAP X: cadastro, login, upload de vários vídeos, lista de status e download do zip. Servido por S3 + CloudFront.
+Front-end do FIAP X: cadastro, login, upload de vários vídeos, lista de status e download do zip. Servido por um pod nginx no EKS, na mesma origem da API (rota `$default` do API Gateway, ADR-019).
 
 > Parte do **Hackathon FIAP X — Processador de Vídeos** (PÓS TECH SOAT, Fase 5).
 > 🚧 Em construção. A documentação vem antes do código: a arquitetura, as decisões (ADRs/RFCs) e os
@@ -8,7 +8,7 @@ Front-end do FIAP X: cadastro, login, upload de vários vídeos, lista de status
 
 ## Stack
 
-React + Vite + TypeScript + Tailwind, hospedado em S3 + CloudFront
+React + Vite + TypeScript + Tailwind, servido por nginx (`nginxinc/nginx-unprivileged`) no EKS
 
 ## Como rodar
 

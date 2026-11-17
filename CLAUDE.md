@@ -12,9 +12,9 @@ e-mail em caso de erro. Entregáveis: documentação da arquitetura, script do b
 vídeo de até 10 minutos.
 
 Stack escolhida pelo time: AWS + Terraform, EKS + KEDA, Laravel 13 (PHP 8.4.27), Lambdas Node.js 24, Aurora
-MySQL Serverless v2, SQS (Standard, FIFO e DLQ), S3 com POST pré-assinado, SAGA orquestrada com outbox,
+MySQL (provisionado `db.t3.medium`), SQS (Standard, FIFO e DLQ), S3 com POST pré-assinado, SAGA orquestrada com outbox,
 DynamoDB, e-mail por SMTP externo (Brevo, Nodemailer; Mailpit no local), New Relic + CloudWatch, React + Vite
-em S3 static website (API Gateway em outra origem, com CORS).
+em pod nginx no EKS, na mesma origem da API (rota `$default` do API Gateway, sem CORS na API).
 
 O `prod` roda na **AWS Academy Learner Lab** (ADR-019): sem OIDC (credenciais do lab em GitHub Secrets,
 atualizadas a cada sessão de ~4 h), sem roles próprias (tudo usa a `LabRole`), sem SES, CloudFront,
@@ -90,8 +90,8 @@ Para um serviço usar o LocalStack: `AWS_ENDPOINT_URL=http://localhost:4566`, `A
 
 ## Este repositório (Etapa 6.5)
 
-Front-end em React + Vite + TypeScript + Tailwind, servido por S3 + CloudFront na mesma origem da API
-(spec §8.7, ADR-014). O layout de referência está em `stitch_fiap_x_video_processor_front_end/` (HTML,
+Front-end em React + Vite + TypeScript + Tailwind, servido por um pod nginx no EKS na mesma origem da API
+(spec §8.7, ADR-014 revisado pelo ADR-019). O layout de referência está em `stitch_fiap_x_video_processor_front_end/` (HTML,
 `screen.png` por tela e `DESIGN.md`). O README traz o escopo de cada tela e os elementos do painel que a API
 não suporta.
 
