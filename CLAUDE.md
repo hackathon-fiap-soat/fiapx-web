@@ -13,18 +13,23 @@ vídeo de até 10 minutos.
 
 Stack escolhida pelo time: AWS + Terraform, EKS + KEDA, Laravel 13 (PHP 8.4.27), Lambdas Node.js 24, Aurora
 MySQL Serverless v2, SQS (Standard, FIFO e DLQ), S3 com POST pré-assinado, SAGA orquestrada com outbox,
-DynamoDB, SES (`nao-responda@hackfiapf5.click`), New Relic, React + Vite no CloudFront (`/api/*` na mesma origem).
+DynamoDB, e-mail por SMTP externo (Brevo, Nodemailer; Mailpit no local), New Relic + CloudWatch, React + Vite
+em S3 static website (API Gateway em outra origem, com CORS).
+
+O `prod` roda na **AWS Academy Learner Lab** (ADR-019): sem OIDC (credenciais do lab em GitHub Secrets,
+atualizadas a cada sessão de ~4 h), sem roles próprias (tudo usa a `LabRole`), sem SES, CloudFront,
+Route 53, spot nem CloudWatch Metric Streams.
 
 Repositórios na organização [hackathon-fiap-soat](https://github.com/hackathon-fiap-soat), clonados lado a lado na mesma pasta:
 
 | Repositório | Papel | Stack | Etapa |
 |---|---|---|---|
 | [`fiapx-docs`](https://github.com/hackathon-fiap-soat/fiapx-docs) | Documentação: arquitetura, ADRs, RFCs, contratos, OpenAPI, diagramas e entrega | Markdown + Mermaid + JSON Schema | Etapa 1 ✅ |
-| [`fiapx-infra`](https://github.com/hackathon-fiap-soat/fiapx-infra) | VPC, EKS, Aurora, S3, SQS, SES, ECR, API Gateway, OIDC, SSM, orquestrador de deploy e ambiente local | Terraform + Helm + docker-compose | Etapa 2 ✅ (local), Etapas 7–8 |
+| [`fiapx-infra`](https://github.com/hackathon-fiap-soat/fiapx-infra) | VPC, EKS, Aurora, S3 (vídeos e site), SQS, ECR, API Gateway, SSM, orquestrador de deploy e ambiente local | Terraform + Helm + docker-compose | Etapa 2 ✅ (local), Etapas 7–8 |
 | [`fiapx-auth`](https://github.com/hackathon-fiap-soat/fiapx-auth) | Lambdas de cadastro, login, senha e authorizer JWT | Node.js 24 + Terraform | Etapa 3 ✅ |
 | [`fiapx-video-api`](https://github.com/hackathon-fiap-soat/fiapx-video-api) | API de vídeos, URLs pré-assinadas, orquestrador da SAGA e outbox | PHP 8.4.27 + Laravel 13 no EKS | Etapa 4 ✅ |
 | [`fiapx-video-processor`](https://github.com/hackathon-fiap-soat/fiapx-video-processor) | Worker que extrai os frames com ffmpeg e gera o zip | PHP 8.4.27 + Laravel 13 no EKS + KEDA | Etapa 5 |
-| [`fiapx-notification`](https://github.com/hackathon-fiap-soat/fiapx-notification) | E-mails pelo SES com histórico e idempotência no DynamoDB | Node.js 24 + Terraform | Etapa 6 |
+| [`fiapx-notification`](https://github.com/hackathon-fiap-soat/fiapx-notification) | E-mails por SMTP (Brevo) com histórico e idempotência no DynamoDB | Node.js 24 + Terraform | Etapa 6 |
 | **fiapx-web** | Front-end: cadastro, login, senha, upload, status e download | React + Vite + TypeScript + Tailwind | Etapa 6.5 |
 
 ## Onde está a verdade
@@ -54,8 +59,10 @@ Ordem do plano: 3 auth → 4 video-api → 5 processor → 6 notification → 6.
 - **`README.md` sempre atualizado**: toda mudança em propósito, stack, como rodar/testar, variáveis ou links
   atualiza o README no mesmo PR.
 - **Nunca commitar segredos** (`.env`, chaves JWT, credenciais). Use `.env.example` com valores fictícios.
-- **`terraform apply`/`destroy` na AWS só pelo GitHub Actions** (merge na `main`, ou `deploy-all.yml` e
-  `destroy-all.yml` no `fiapx-infra`, ADR-016 e ADR-018). Apply local só no LocalStack.
+- **`terraform apply`/`destroy` na AWS só pelo GitHub Actions, sem exceção** (merge na `main`, ou
+  `deploy-all.yml` e `destroy-all.yml` no `fiapx-infra`, ADR-016, ADR-018 e ADR-019). Apply local só no
+  LocalStack. Antes de um deploy, iniciar a sessão do lab e atualizar os Secrets `AWS_ACCESS_KEY_ID`,
+  `AWS_SECRET_ACCESS_KEY` e `AWS_SESSION_TOKEN` (nunca em Variables: os repositórios são públicos).
 - **Todo merge na `main` faz deploy** do serviço (decisão do time). O ambiente `prod` é destruído fora das
   demonstrações; nesse período o deploy do merge falha ao ler o SSM, e é esperado.
 - `main` protegida: só por PR, aprovação opcional, squash merge, histórico linear. Use a skill `fiapx-pr`.
