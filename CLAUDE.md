@@ -13,7 +13,7 @@ vídeo de até 10 minutos.
 
 Stack escolhida pelo time: AWS + Terraform, EKS + KEDA, Laravel 13 (PHP 8.4.27), Lambdas Node.js 24, Aurora
 MySQL (provisionado `db.t3.medium`), SQS (Standard, FIFO e DLQ), S3 com POST pré-assinado, SAGA orquestrada com outbox,
-DynamoDB, e-mail por SMTP externo (Brevo, Nodemailer; Mailpit no local), New Relic + CloudWatch, React + Vite
+DynamoDB, e-mail por SMTP externo (OCI Email Delivery, ADR-020, Nodemailer; Mailpit no local), New Relic + CloudWatch, React + Vite
 em pod nginx no EKS, na mesma origem da API (rota `$default` do API Gateway, sem CORS na API).
 
 O `prod` roda na **AWS Academy Learner Lab** (ADR-019): sem OIDC (credenciais do lab em GitHub Secrets,
@@ -29,7 +29,7 @@ Repositórios na organização [hackathon-fiap-soat](https://github.com/hackatho
 | [`fiapx-auth`](https://github.com/hackathon-fiap-soat/fiapx-auth) | Lambdas de cadastro, login, senha e authorizer JWT | Node.js 24 + Terraform | Etapa 3 ✅ |
 | [`fiapx-video-api`](https://github.com/hackathon-fiap-soat/fiapx-video-api) | API de vídeos, URLs pré-assinadas, orquestrador da SAGA e outbox | PHP 8.4.27 + Laravel 13 no EKS | Etapa 4 ✅ |
 | [`fiapx-video-processor`](https://github.com/hackathon-fiap-soat/fiapx-video-processor) | Worker que extrai os frames com ffmpeg e gera o zip | PHP 8.4.27 + Laravel 13 no EKS + KEDA | Etapa 5 |
-| [`fiapx-notification`](https://github.com/hackathon-fiap-soat/fiapx-notification) | E-mails por SMTP (Brevo) com histórico e idempotência no DynamoDB | Node.js 24 + Terraform | Etapa 6 |
+| [`fiapx-notification`](https://github.com/hackathon-fiap-soat/fiapx-notification) | E-mails por SMTP (OCI Email Delivery) com histórico e idempotência no DynamoDB | Node.js 24 + Terraform | Etapa 6 |
 | **fiapx-web** | Front-end: cadastro, login, senha, upload, status e download | React + Vite + TypeScript + Tailwind | Etapa 6.5 |
 
 ## Onde está a verdade
@@ -51,7 +51,7 @@ Decisão nova ou que contrarie uma existente vira ADR no `fiapx-docs`.
 Etapas 0 a 7 concluídas: auth, video-api, processor, notification, web e infra implantados juntos pelo
 `deploy-all` na AWS Academy, com o smoke ponta a ponta verde (site, cadastro, login, upload até `COMPLETED`,
 zip e item de e-mail no DynamoDB); falha de vídeo, e-mail de erro e de senha e 3 uploads simultâneos pelo
-site também testados. Pendente: entrega real dos e-mails pelo Brevo (fica por último).
+site também testados. E-mail pelo OCI Email Delivery (ADR-020), no lugar do Brevo, que não entregava.
 Em andamento: Etapa 10 (teste de carga k6 em `fiapx-docs/tests/load/`) e Etapa 8 (SonarCloud e checks
 obrigatórios). Ordem do plano: 3 auth → 4 video-api → 5 processor → 6 notification → 6.5 web → 7 infra AWS
 🛑 → 8 CI/CD → 9 observabilidade → 10 carga e entregáveis 🛑. O estado atualizado está no painel.
