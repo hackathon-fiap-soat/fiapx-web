@@ -48,12 +48,13 @@ Decisão nova ou que contrarie uma existente vira ADR no `fiapx-docs`.
 
 ## Andamento (2026-11-17)
 
-Etapa 7 (infra AWS) aplicada e testada na AWS Academy; o estado das demais etapas está no painel. **Etapa 6.5 (este repositório)
-implementada:** telas, mock, testes (cobertura ~97%), E2E, imagem nginx, `k8s/`, `infra/` (rota `$default`) e
-workflows; DoD local provado contra o stack real. Falta o deploy testado na AWS (`deploy-all` com o job `web`,
-que o time liga no `fiapx-infra`) e o `destroy-all`.
-Ordem do plano: 3 auth → 4 video-api → 5 processor → 6 notification → 6.5 web → 7 infra AWS 🛑 → 8 CI/CD →
-9 observabilidade → 10 carga e entregáveis 🛑. O estado atualizado está no painel.
+Etapas 0 a 7 concluídas: auth, video-api, processor, notification, web e infra implantados juntos pelo
+`deploy-all` na AWS Academy, com o smoke ponta a ponta verde (site, cadastro, login, upload até `COMPLETED`,
+zip e item de e-mail no DynamoDB); falha de vídeo, e-mail de erro e de senha e 3 uploads simultâneos pelo
+site também testados. Pendente: entrega real dos e-mails pelo Brevo (fica por último).
+Em andamento: Etapa 10 (teste de carga k6 em `fiapx-docs/tests/load/`) e Etapa 8 (SonarCloud e checks
+obrigatórios). Ordem do plano: 3 auth → 4 video-api → 5 processor → 6 notification → 6.5 web → 7 infra AWS
+🛑 → 8 CI/CD → 9 observabilidade → 10 carga e entregáveis 🛑. O estado atualizado está no painel.
 
 ## Regras do time
 
