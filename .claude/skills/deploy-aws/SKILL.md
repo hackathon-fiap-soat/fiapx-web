@@ -47,6 +47,9 @@ aws iam simulate-principal-policy --policy-source-arn arn:aws:iam::<conta>:role/
   `s3-bucket` do `fiapx-infra` (a SCP nega uma leitura do `aws_s3_bucket`).
 - Imagem para o EKS: `USER` numérico (`runAsNonRoot`). HTTP API: permissão de authorizer com
   `source_arn = <execution_arn>/authorizers/<id>` (sem stage).
+- Valor pessoal ou secreto (e-mail, chave) que vira variável do Terraform: marque a variável como
+  `sensitive` (e use `count`, não `for_each`, se for lista) **na `main` antes** de cadastrar o Secret. O
+  `plan` é comentado em PRs de repositórios públicos e já vazou um e-mail assim.
 - Rode um `plan` local contra o state real para ver o que muda:
   `terraform init -backend-config=bucket=fiapx-tfstate-<conta>` e `terraform plan -lock=false`.
 
