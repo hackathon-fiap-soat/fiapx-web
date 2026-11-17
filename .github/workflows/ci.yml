@@ -38,7 +38,7 @@ jobs:
       - name: Rodar os testes com cobertura ≥ 80% (Vitest)
         run: npm run test:coverage
       - name: Analisar no SonarCloud e esperar o Quality Gate
-        uses: SonarSource/sonarqube-scan-action@v8.4.1
+        uses: SonarSource/sonarqube-scan-action@e805d875275f728fac1885b413934be6d7c63f65 # v8.4.1
         with:
           args: -Dsonar.qualitygate.wait=true
         env:
