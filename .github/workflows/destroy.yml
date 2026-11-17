@@ -3,8 +3,15 @@ name: Destroy · site e rota $default
 # Chamado pelo destroy-all do fiapx-infra (ADR-018), antes do video-api (que apaga o namespace fiapx).
 # Remove só os recursos deste repositório: TargetGroupBinding primeiro (o controller solta os alvos do ALB),
 # depois Deployment, Service, PDB e ConfigMap, e por fim a rota $default (Terraform). O ECR é da infraestrutura.
+# Chamado por outro workflow, `github.event_name` é o evento do chamador (o workflow_dispatch do destroy-all)
+# e os `inputs` são os do workflow_call: por isso o `confirm` também existe aqui, com o valor certo por padrão.
 on:
   workflow_call:
+    inputs:
+      confirm:
+        description: Confirmação (o destroy-all usa o padrão)
+        type: string
+        default: destroy-web
   workflow_dispatch:
     inputs:
       confirm:
@@ -17,7 +24,7 @@ permissions:
 jobs:
   destroy:
     name: Remover
-    if: github.event_name != 'workflow_dispatch' || inputs.confirm == 'destroy-web'
+    if: inputs.confirm == 'destroy-web'
     runs-on: ubuntu-latest
     environment: prod
     timeout-minutes: 20
