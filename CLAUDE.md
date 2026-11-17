@@ -46,10 +46,11 @@ Repositórios na organização [hackathon-fiap-soat](https://github.com/hackatho
 Se o código e a documentação divergirem, ou algo estiver ambíguo, **pergunte ao time** antes de assumir.
 Decisão nova ou que contrarie uma existente vira ADR no `fiapx-docs`.
 
-## Andamento (2026-11-16)
+## Andamento (2026-11-17)
 
-Etapas 0 a 4 concluídas (repositórios, documentação, ambiente local, `fiapx-auth` e `fiapx-video-api`).
-Próxima: Etapa 5 (`fiapx-video-processor`).
+Etapas 0 a 4 concluídas. Etapa 7 (infra AWS) aplicada na AWS Academy: notification (fila e tabela), auth e
+video-api implantados e testados com o smoke do `deploy-all`; ambiente derrubado depois do teste.
+Próxima: Etapa 5 (`fiapx-video-processor`), que termina com o deploy testado na AWS.
 Ordem do plano: 3 auth → 4 video-api → 5 processor → 6 notification → 6.5 web → 7 infra AWS 🛑 → 8 CI/CD →
 9 observabilidade → 10 carga e entregáveis 🛑. O estado atualizado está no painel.
 
@@ -63,6 +64,9 @@ Ordem do plano: 3 auth → 4 video-api → 5 processor → 6 notification → 6.
   `deploy-all.yml` e `destroy-all.yml` no `fiapx-infra`, ADR-016, ADR-018 e ADR-019). Apply local só no
   LocalStack. Antes de um deploy, iniciar a sessão do lab e atualizar os Secrets `AWS_ACCESS_KEY_ID`,
   `AWS_SECRET_ACCESS_KEY` e `AWS_SESSION_TOKEN` (nunca em Variables: os repositórios são públicos).
+- **Toda implementação termina com o deploy testado na AWS** (deploy, smoke verde, verificação e
+  `destroy-all`). Infraestrutura nova é conferida antes contra as restrições do lab
+  (`06-deploy/ambientes.md#restrições-conhecidas-do-lab`).
 - **Todo merge na `main` faz deploy** do serviço (decisão do time). O ambiente `prod` é destruído fora das
   demonstrações; nesse período o deploy do merge falha ao ler o SSM, e é esperado.
 - `main` protegida: só por PR, aprovação opcional, squash merge, histórico linear. Use a skill `fiapx-pr`.
@@ -109,4 +113,5 @@ atualizando sozinho → download dos zips.
 | Skill | Quando usar |
 |---|---|
 | `implementar-tela` | ao implementar ou ajustar uma tela a partir do layout |
+| `deploy-aws` | ao terminar uma implementação (testar o deploy na AWS e derrubar), antes de PR com Terraform, Dockerfile ou manifests novos, e quando um deploy falhar |
 | `fiapx-pr` | ao abrir e mergear o PR |
