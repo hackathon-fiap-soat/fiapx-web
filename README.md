@@ -118,7 +118,7 @@ Veja `.env.example` e `.env.mock`. Não há segredo no front-end.
   no HTTP API (`/fiapx/prod/apigw/api_id`), sem authorizer, integração `HTTP_PROXY` pelo VPC Link ao listener
   do ALB. As rotas específicas da API têm prioridade sobre ela.
 - **Workflows** (nomes no padrão "<Tipo> · <o que faz>", com jobs e steps descritivos): `ci.yml`
-  ("CI · lint, testes, build e imagem do site"; PR: lint, typecheck, testes com cobertura, build, E2E com mock, imagem + smoke +
+  ("CI · lint, testes, build e imagem do site"; PR: lint, typecheck, testes com cobertura e SonarCloud (Quality Gate), build, E2E com mock, imagem + smoke +
   Trivy, kustomize + kubeconform, terraform fmt/validate e actionlint); `deploy.yml` ("Deploy · site (nginx no EKS) e rota $default"; merge na `main`,
   `workflow_dispatch` e `workflow_call` do `deploy-all`): credenciais do lab → SSM → imagem `linux/amd64` no ECR
   (`/fiapx/prod/ecr/fiapx-web/url`) → `terraform apply` da rota → `kubectl apply -k` → `rollout status` →
