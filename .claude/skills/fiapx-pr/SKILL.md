@@ -37,9 +37,14 @@ autor, pode mergear), mas o merge só acontece com o CI verde. **Todo merge na `
    Se o repositório ainda não tem workflow para os arquivos alterados, diga isso no PR.
 7. Com tudo verde: `gh pr merge <n> --squash --delete-branch`, depois `git checkout main && git pull`.
 8. Atualizar o painel de progresso (tarefa da etapa) e relatar ao time o link do PR.
+9. **Ao fim de uma implementação (etapa ou mudança relevante), teste o deploy na AWS** com a skill
+   `deploy-aws`: o merge de um serviço já dispara o `deploy.yml`; confira o smoke do `deploy-all`, verifique o
+   que a etapa entregou e rode o `destroy-all` no fim. Mudou Terraform, Dockerfile ou manifests? Confira
+   antes as restrições do lab (`fiapx-docs/06-deploy/ambientes.md#restrições-conhecidas-do-lab`).
 
 ## Não fazer
 
 - Push direto na `main`, `--force` na `main`, ou merge com CI vermelho ou pendente.
-- Merge do PR da infraestrutura da AWS (Etapa 7): esse quem faz é o time, depois de revisar o `plan`.
+- Merge de PR do `fiapx-infra` que muda a infraestrutura (gera custo): esse quem faz é o time, depois de
+  revisar o `plan`.
 - Commitar `.env`, chaves `.pem`/`.key` ou state do Terraform.
