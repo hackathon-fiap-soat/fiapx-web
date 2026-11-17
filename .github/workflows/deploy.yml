@@ -24,7 +24,7 @@ env:
 
 jobs:
   deploy:
-    name: Deploy do site no EKS
+    name: Implantar
     runs-on: ubuntu-latest
     environment: prod
     timeout-minutes: 30

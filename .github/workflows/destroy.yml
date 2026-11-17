@@ -16,7 +16,7 @@ permissions:
 
 jobs:
   destroy:
-    name: Remover site e rota $default
+    name: Remover
     if: github.event_name != 'workflow_dispatch' || inputs.confirm == 'destroy-web'
     runs-on: ubuntu-latest
     environment: prod
