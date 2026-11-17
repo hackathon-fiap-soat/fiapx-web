@@ -1,4 +1,4 @@
-name: destroy
+name: Destroy · site e rota $default
 
 # Chamado pelo destroy-all do fiapx-infra (ADR-018), antes do video-api (que apaga o namespace fiapx).
 # Remove só os recursos deste repositório: TargetGroupBinding primeiro (o controller solta os alvos do ALB),
@@ -16,20 +16,23 @@ permissions:
 
 jobs:
   destroy:
+    name: Remover site e rota $default
     if: github.event_name != 'workflow_dispatch' || inputs.confirm == 'destroy-web'
     runs-on: ubuntu-latest
     environment: prod
     timeout-minutes: 20
     steps:
-      - uses: actions/checkout@v4
+      - name: Baixar o código
+        uses: actions/checkout@v4
         with: { repository: hackathon-fiap-soat/fiapx-web }
-      - id: aws
+      - name: Configurar as credenciais da AWS Academy e o bucket do state
+        id: aws
         uses: hackathon-fiap-soat/fiapx-infra/.github/actions/aws-lab@main
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
-      - name: Recursos no EKS
+      - name: Remover os recursos do site no EKS (TargetGroupBinding primeiro)
         run: |
           set -euo pipefail
           if cluster=$(aws ssm get-parameter --name /fiapx/prod/eks/cluster_name --query Parameter.Value --output text 2>/dev/null); then
@@ -42,9 +45,10 @@ jobs:
           else
             echo "Cluster já não existe; nada a apagar no Kubernetes."
           fi
-      - uses: hashicorp/setup-terraform@v3
+      - name: Instalar o Terraform 1.15.8
+        uses: hashicorp/setup-terraform@v3
         with: { terraform_version: 1.15.8, terraform_wrapper: false }
-      - name: Terraform destroy (rota $default)
+      - name: Remover a rota $default do API Gateway (terraform destroy)
         working-directory: infra
         run: |
           terraform init -input=false -backend-config="bucket=${{ steps.aws.outputs.state-bucket }}"

@@ -102,7 +102,7 @@ Veja `.env.example` e `.env.mock`. Não há segredo no front-end.
 ## Imagem e deploy
 
 - **Imagem** (`Dockerfile`): build do Vite com `VITE_API_BASE_URL=/api` → `nginxinc/nginx-unprivileged:1.29.8-alpine`,
-  porta 8080, `USER 101:101` (o EKS exige `runAsNonRoot` com UID numérico). O nginx (`nginx/default.conf`) faz
+  porta 8080, `USER 101:101` (o EKS exige `runAsNonRoot` com UID numérico). A imagem aplica `apk upgrade` (correções do Alpine posteriores à base). O nginx (`nginx/default.conf`) faz
   o fallback do SPA (`try_files ... /index.html`), cache longo em `/assets/`, `no-cache` no `index.html` e 404
   em JSON para `/api/*` (em produção o ALB manda `/api/*` ao video-api; o nginx não faz proxy).
 
@@ -117,12 +117,13 @@ Veja `.env.example` e `.env.mock`. Não há segredo no front-end.
 - **Terraform** (`infra/`, state `fiapx-web/prod.tfstate` no bucket `fiapx-tfstate-<conta>`): rota `$default`
   no HTTP API (`/fiapx/prod/apigw/api_id`), sem authorizer, integração `HTTP_PROXY` pelo VPC Link ao listener
   do ALB. As rotas específicas da API têm prioridade sobre ela.
-- **Workflows:** `ci.yml` (PR: lint, typecheck, testes com cobertura, build, E2E com mock, imagem + smoke +
-  Trivy, kustomize + kubeconform, terraform fmt/validate e actionlint); `deploy.yml` (merge na `main`,
+- **Workflows** (nomes no padrão "<Tipo> · <o que faz>", com jobs e steps descritivos): `ci.yml`
+  ("CI · lint, testes, build e imagem do site"; PR: lint, typecheck, testes com cobertura, build, E2E com mock, imagem + smoke +
+  Trivy, kustomize + kubeconform, terraform fmt/validate e actionlint); `deploy.yml` ("Deploy · site (nginx no EKS) e rota $default"; merge na `main`,
   `workflow_dispatch` e `workflow_call` do `deploy-all`): credenciais do lab → SSM → imagem `linux/amd64` no ECR
   (`/fiapx/prod/ecr/fiapx-web/url`) → `terraform apply` da rota → `kubectl apply -k` → `rollout status` →
-  smoke em `/` e `/login` na URL do site (`/fiapx/prod/web/url`); `destroy.yml` (`workflow_call` do
-  `destroy-all`, ou manual com `confirm = destroy-web`): remove os recursos do site no EKS e a rota.
+  smoke em `/` e `/login` na URL do site (`/fiapx/prod/web/url`); `destroy.yml` ("Destroy · site e rota $default";
+  `workflow_call` do `destroy-all`, ou manual com `confirm = destroy-web`): remove os recursos do site no EKS e a rota.
   Precisam dos Secrets `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY` e `AWS_SESSION_TOKEN` (ADR-019).
 
 ## Layout de referência

@@ -80,7 +80,7 @@ export async function request<T>(path: string, options: RequestOptions = {}): Pr
       signal,
     });
   } catch (error) {
-    if (error instanceof DOMException && error.name === 'AbortError') throw error;
+    if ((error as { name?: unknown } | null)?.name === 'AbortError') throw error;
     throw new ApiError(0, 'Sem conexão com o servidor. Verifique a sua internet e tente de novo.');
   }
 

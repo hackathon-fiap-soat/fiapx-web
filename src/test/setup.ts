@@ -12,7 +12,29 @@ const NodeFormData = (await new Response('a=1', { headers: { 'content-type': 'ap
 globalThis.FormData = NodeFormData;
 globalThis.File = NodeFile as unknown as typeof File;
 
-beforeAll(() => server.listen({ onUnhandledRequest: 'error' }));
+// O fetch do Node 24 recusa o AbortSignal do jsdom ("Expected signal to be an instance of AbortSignal"):
+// repassa a requisição sem o signal e rejeita com AbortError quando o signal do jsdom dispara.
+function bridgeAbortSignal(): void {
+  const nodeFetch = globalThis.fetch;
+  globalThis.fetch = (input: RequestInfo | URL, init?: RequestInit) => {
+    const signal = init?.signal;
+    if (!signal) return nodeFetch(input, init);
+    const { signal: _ignored, ...rest } = init;
+    void _ignored;
+    return new Promise<Response>((resolve, reject) => {
+      const abort = () => reject(new DOMException('The operation was aborted.', 'AbortError'));
+      if (signal.aborted) return abort();
+      signal.addEventListener('abort', abort, { once: true });
+      nodeFetch(input, rest).then(resolve, reject);
+    });
+  };
+}
+
+beforeAll(() => {
+  server.listen({ onUnhandledRequest: 'error' });
+  // Depois do listen: o fetch do MSW também cria um Request com o signal e precisa receber a versão sem ele.
+  bridgeAbortSignal();
+});
 afterEach(() => {
   cleanup();
   server.resetHandlers();
