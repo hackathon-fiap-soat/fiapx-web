@@ -1,0 +1,104 @@
+name: deploy
+
+# Deploy do site (ADR-018, ADR-019 §6): no merge na main e chamado pelo deploy-all do fiapx-infra.
+# Imagem nginx no ECR → rota $default no API Gateway (Terraform) → Deployment, Service e TargetGroupBinding
+# no EKS → smoke na URL do site. Credenciais da AWS Academy em Secrets (ADR-019). Com o ambiente destruído,
+# falha ao ler o SSM.
+on:
+  push:
+    branches: [main]
+    # Mudança só de documentação ou de contexto do Claude não reimplanta o site.
+    paths-ignore: ["**.md", ".claude/**", "docs/**", "LICENSE"]
+  workflow_call:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deploy-fiapx-web
+  cancel-in-progress: false
+
+env:
+  SSM: /fiapx/prod
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: prod
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with: { repository: hackathon-fiap-soat/fiapx-web }
+      - id: aws
+        uses: hackathon-fiap-soat/fiapx-infra/.github/actions/aws-lab@main
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
+      - name: Ler o SSM (ambiente no ar?)
+        id: p
+        run: |
+          set -euo pipefail
+          ler() { aws ssm get-parameter --name "$SSM/$1" --query Parameter.Value --output text 2>/dev/null || {
+            echo "::error::Falta $SSM/$1. Ambiente fora do ar: rode o deploy-all no fiapx-infra."; exit 1; }; }
+          {
+            echo "cluster=$(ler eks/cluster_name)"
+            echo "ecr=$(ler ecr/fiapx-web/url)"
+            echo "url=$(ler web/url)"
+          } >> "$GITHUB_OUTPUT"
+          echo "WEB_TARGET_GROUP_ARN=$(ler alb/web_target_group_arn)" > k8s/overlays/prod/aws.env
+
+      - name: Imagem (linux/amd64) no ECR
+        run: |
+          set -euo pipefail
+          aws ecr get-login-password | docker login --username AWS --password-stdin "${{ steps.p.outputs.ecr }}"
+          docker build --platform linux/amd64 --build-arg VITE_API_BASE_URL=/api -t "${{ steps.p.outputs.ecr }}:${{ github.sha }}" .
+          docker push "${{ steps.p.outputs.ecr }}:${{ github.sha }}"
+
+      - uses: hashicorp/setup-terraform@v3
+        with: { terraform_version: 1.15.8, terraform_wrapper: false }
+      - name: Terraform apply (rota $default)
+        working-directory: infra
+        run: |
+          terraform init -input=false -backend-config="bucket=${{ steps.aws.outputs.state-bucket }}"
+          terraform apply -auto-approve -input=false -lock-timeout=10m
+
+      - name: Acesso ao cluster
+        run: aws eks update-kubeconfig --name "${{ steps.p.outputs.cluster }}"
+
+      - name: Manifests e rollout
+        run: |
+          set -euo pipefail
+          kubectl create namespace fiapx --dry-run=client -o yaml | kubectl apply -f -
+          sed -i "s|newName: fiapx-web|newName: ${{ steps.p.outputs.ecr }}|; s|newTag: latest|newTag: ${{ github.sha }}|" \
+            k8s/overlays/prod/kustomization.yaml
+          kubectl kustomize k8s/overlays/prod | kubectl apply -f -
+          if ! kubectl -n fiapx rollout status deployment/web --timeout=5m; then
+            kubectl -n fiapx describe pods -l app.kubernetes.io/name=web | tail -40 || true
+            exit 1
+          fi
+
+      - name: Smoke (site pela URL do API Gateway)
+        env:
+          WEB_URL: ${{ steps.p.outputs.url }}
+        run: |
+          set -euo pipefail
+          # O ALB leva alguns segundos para registrar os pods novos no target group.
+          for rota in / /login; do
+            ok=""
+            for _ in $(seq 1 30); do
+              if html=$(curl -fsS "$WEB_URL$rota") && grep -q 'id="root"' <<<"$html"; then ok=1; break; fi
+              sleep 10
+            done
+            [ -n "$ok" ] || { echo "::error::$WEB_URL$rota não devolveu o index.html do site"; exit 1; }
+            echo "$rota: 200 com o index.html"
+          done
+
+      - name: Resumo
+        run: |
+          {
+            echo "### fiapx-web implantado"
+            echo "- Imagem: \`${{ steps.p.outputs.ecr }}:${{ github.sha }}\`"
+            echo "- Site: ${{ steps.p.outputs.url }}"
+          } >> "$GITHUB_STEP_SUMMARY"

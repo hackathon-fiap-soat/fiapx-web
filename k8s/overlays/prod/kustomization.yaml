@@ -1,0 +1,21 @@
+# Produção. O deploy.yml (ADR-018) gera aws.env a partir do SSM e troca a imagem (newName/newTag) pela do ECR
+# com o SHA do commit antes de aplicar.
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ../../base
+images:
+  - name: fiapx-web
+    newName: fiapx-web
+    newTag: latest
+configMapGenerator:
+  - name: fiapx-web-aws
+    namespace: fiapx
+    envs: [aws.env]
+    options:
+      labels: { app.kubernetes.io/name: web, app.kubernetes.io/part-of: fiapx }
+replacements:
+  - source: { kind: ConfigMap, name: fiapx-web-aws, fieldPath: data.WEB_TARGET_GROUP_ARN }
+    targets:
+      - select: { kind: TargetGroupBinding, name: web }
+        fieldPaths: [spec.targetGroupARN]

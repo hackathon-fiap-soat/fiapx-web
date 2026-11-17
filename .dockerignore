@@ -1,0 +1,16 @@
+node_modules
+dist
+dist-*
+coverage
+playwright-report
+test-results
+.git
+.github
+.claude
+k8s
+infra
+stitch_fiap_x_video_processor_front_end
+*.md
+.env
+.env.*
+!.env.example

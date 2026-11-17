@@ -1,0 +1,51 @@
+name: destroy
+
+# Chamado pelo destroy-all do fiapx-infra (ADR-018), antes do video-api (que apaga o namespace fiapx).
+# Remove só os recursos deste repositório: TargetGroupBinding primeiro (o controller solta os alvos do ALB),
+# depois Deployment, Service, PDB e ConfigMap, e por fim a rota $default (Terraform). O ECR é da infraestrutura.
+on:
+  workflow_call:
+  workflow_dispatch:
+    inputs:
+      confirm:
+        description: Digite destroy-web para confirmar
+        required: true
+
+permissions:
+  contents: read
+
+jobs:
+  destroy:
+    if: github.event_name != 'workflow_dispatch' || inputs.confirm == 'destroy-web'
+    runs-on: ubuntu-latest
+    environment: prod
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with: { repository: hackathon-fiap-soat/fiapx-web }
+      - id: aws
+        uses: hackathon-fiap-soat/fiapx-infra/.github/actions/aws-lab@main
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
+      - name: Recursos no EKS
+        run: |
+          set -euo pipefail
+          if cluster=$(aws ssm get-parameter --name /fiapx/prod/eks/cluster_name --query Parameter.Value --output text 2>/dev/null); then
+            aws eks update-kubeconfig --name "$cluster"
+            kubectl -n fiapx delete targetgroupbinding web --ignore-not-found --wait --timeout=5m
+            cp k8s/overlays/prod/aws.env.example k8s/overlays/prod/aws.env
+            kubectl kustomize k8s/overlays/prod | yq 'select(.kind != "ConfigMap")' | kubectl delete -f - --ignore-not-found --wait
+            # ConfigMaps gerados (sufixo de hash muda a cada deploy): pelo rótulo.
+            kubectl -n fiapx delete configmap -l app.kubernetes.io/name=web --ignore-not-found
+          else
+            echo "Cluster já não existe; nada a apagar no Kubernetes."
+          fi
+      - uses: hashicorp/setup-terraform@v3
+        with: { terraform_version: 1.15.8, terraform_wrapper: false }
+      - name: Terraform destroy (rota $default)
+        working-directory: infra
+        run: |
+          terraform init -input=false -backend-config="bucket=${{ steps.aws.outputs.state-bucket }}"
+          terraform destroy -auto-approve -input=false -lock-timeout=10m
