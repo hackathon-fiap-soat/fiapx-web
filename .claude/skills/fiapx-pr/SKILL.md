@@ -6,7 +6,8 @@ description: Fluxo para levar uma mudança deste repositório fiapx-* até a mai
 # Abrir, validar e mergear um PR
 
 A `main` é protegida: toda mudança entra por PR. A aprovação é opcional (qualquer integrante, inclusive o
-autor, pode mergear), mas o merge só acontece com o CI verde. **Todo merge na `main` faz deploy** do serviço.
+autor, pode mergear), mas o merge só acontece com o CI verde: os checks (testes, lint e o Quality Gate do
+SonarCloud) são obrigatórios na proteção da `main`. **Todo merge na `main` faz deploy** do serviço.
 
 ## Passos
 
