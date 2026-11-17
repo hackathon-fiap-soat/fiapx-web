@@ -21,7 +21,16 @@ description: Passo a passo para implementar uma tela do fiapx-web em React a par
      progresso por `XMLHttpRequest`, limite de 500 MB;
    - polling de 5 s enquanto houver vídeo em estado não final; motivo de falha legível a partir do
      `failure_code`.
-5. **Mock:** atualize os handlers do MSW para a tela funcionar sem back-end.
-6. **Testes:** Vitest + Testing Library cobrindo estados de carregamento, sucesso e erro; o E2E com
-   Playwright cobre login → upload → status.
-7. Atualize o README (rotas, variáveis, escopo) e abra o PR com a skill `fiapx-pr`.
+5. **Onde fica:** página em `src/pages/`, lógica e componentes da funcionalidade em `src/features/<auth|videos>/`,
+   chamadas HTTP só pelo `request()` de `src/shared/httpClient.ts` (`auth: true` nas rotas protegidas) e
+   componentes visuais reutilizáveis em `src/shared/ui/`. Rota nova em `src/app/AppRoutes.tsx` (dentro do
+   `ProtectedRoute` se exigir login).
+6. **Mock:** atualize `src/mocks/handlers.ts` (e o estado em `src/mocks/db.ts`) para a tela funcionar sem
+   back-end, com as mesmas respostas e erros do OpenAPI. Confira em `npm run dev:mock`.
+7. **Testes:** Vitest + Testing Library com `renderApp(path, { loggedIn })` de `src/test/render.tsx` (app inteiro
+   + MSW), cobrindo carregamento, sucesso e erro; `server.use(...)` para forçar um erro. Cobertura ≥ 80%
+   (`npm run test:coverage`), `npm run lint` e `npm run typecheck` limpos. Fluxo novo de ponta a ponta entra em
+   `e2e/` (mock, roda no CI) e, se depender do back-end real, em `e2e-local/`.
+8. **Back-end real:** `npm run dev` com o stack local de pé (README, "Fluxo ponta a ponta local"); o Vite tem de
+   estar em `http://localhost:5173` por causa do CORS do bucket do LocalStack.
+9. Atualize o README (rotas, variáveis, escopo) e abra o PR com a skill `fiapx-pr`.

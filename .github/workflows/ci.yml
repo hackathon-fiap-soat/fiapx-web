@@ -1,0 +1,134 @@
+name: CI · lint, testes, build e imagem do site
+
+# Checks de todo PR (spec §11.2): ESLint, typecheck, Vitest com cobertura ≥ 80%, build, E2E com Playwright
+# contra o modo mock (MSW), build da imagem + smoke + Trivy, kustomize + kubeconform, terraform fmt/validate e
+# actionlint. O deploy está em deploy.yml (ADR-018, credenciais da AWS Academy, ADR-019).
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  qualidade:
+    name: Lint, testes e cobertura (Vitest)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Baixar o código
+        uses: actions/checkout@v4
+      - name: Instalar o Node.js 24
+        uses: actions/setup-node@v4
+        with: { node-version: 24, cache: npm }
+      - name: Instalar as dependências (npm ci)
+        run: npm ci
+      - name: Verificar o lint (ESLint, zero avisos)
+        run: npm run lint
+      - name: Verificar os tipos (tsc)
+        run: npm run typecheck
+      - name: Rodar os testes com cobertura ≥ 80% (Vitest)
+        run: npm run test:coverage
+      - name: Gerar o build de produção (Vite)
+        run: npm run build
+
+  e2e:
+    name: E2E com Playwright (mock)
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Baixar o código
+        uses: actions/checkout@v4
+      - name: Instalar o Node.js 24
+        uses: actions/setup-node@v4
+        with: { node-version: 24, cache: npm }
+      - name: Instalar as dependências (npm ci)
+        run: npm ci
+      - name: Instalar o Chromium do Playwright
+        run: npx playwright install --with-deps chromium
+      - name: Rodar o E2E login → upload → status contra o modo mock
+        run: npm run test:e2e
+      - name: Publicar o relatório do Playwright (só em falha)
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: |
+            playwright-report/
+            test-results/
+          retention-days: 7
+
+  imagem:
+    name: Imagem Docker + Trivy
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Baixar o código
+        uses: actions/checkout@v4
+      - name: Construir a imagem de produção (linux/amd64)
+        run: docker build --platform linux/amd64 -t fiapx-web:${{ github.sha }} .
+      - name: Conferir a imagem (/, rotas do SPA e /api fora do nginx)
+        run: |
+          set -euo pipefail
+          docker run -d --name web --read-only --tmpfs /tmp -p 8080:8080 fiapx-web:${{ github.sha }}
+          for _ in $(seq 1 20); do curl -fs http://localhost:8080/ >/dev/null && break; sleep 1; done
+          for rota in / /login /videos; do
+            curl -fsS "http://localhost:8080$rota" | grep -q 'id="root"' || { echo "::error::$rota não devolveu o index.html"; exit 1; }
+          done
+          test "$(curl -s -o /dev/null -w '%{http_code}' http://localhost:8080/api/videos)" = 404
+          docker rm -f web
+      - name: Procurar vulnerabilidades CRITICAL na imagem (Trivy)
+        uses: aquasecurity/trivy-action@v0.36.0
+        with:
+          image-ref: fiapx-web:${{ github.sha }}
+          severity: CRITICAL
+          exit-code: "1"
+          ignore-unfixed: true
+
+  manifests:
+    name: Manifests do Kubernetes (kustomize + kubeconform)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Baixar o código
+        uses: actions/checkout@v4
+      - name: Gerar os manifests do overlay prod (kustomize)
+        run: |
+          cp k8s/overlays/prod/aws.env.example k8s/overlays/prod/aws.env
+          # kubectl do runner (kustomize embutido): evita o pull de registry.k8s.io, que tem cota por minuto.
+          kubectl kustomize k8s/overlays/prod > manifests.yaml
+      - name: Validar os manifests (kubeconform, Kubernetes 1.33)
+        run: docker run --rm -v "$PWD":/w ghcr.io/yannh/kubeconform:v0.6.7 -strict -summary -ignore-missing-schemas -kubernetes-version 1.33.0 /w/manifests.yaml
+
+  terraform:
+    name: Terraform fmt/validate da rota
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: infra
+    steps:
+      - name: Baixar o código
+        uses: actions/checkout@v4
+      - name: Instalar o Terraform 1.15.8
+        uses: hashicorp/setup-terraform@v3
+        with: { terraform_version: 1.15.8 }
+      - name: Conferir a formatação (terraform fmt)
+        run: terraform fmt -check -recursive
+      - name: Inicializar sem backend (terraform init)
+        run: terraform init -backend=false -input=false
+      - name: Validar a configuração (terraform validate)
+        run: terraform validate
+
+  workflows:
+    name: Workflows do GitHub Actions (actionlint)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Baixar o código
+        uses: actions/checkout@v4
+      - name: Validar os workflows (actionlint 1.7.7 + shellcheck)
+        run: docker run --rm -v "$PWD":/repo -w /repo rhysd/actionlint:1.7.7 -color

@@ -1,0 +1,10 @@
+# O namespace fiapx não entra aqui: é compartilhado com o video-api e o processor. O deploy.yml o cria se faltar
+# e o destroy.yml apaga só os recursos deste repositório.
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: fiapx
+resources:
+  - deployment.yaml
+  - service.yaml
+  - targetgroupbinding.yaml
+  - pdb.yaml

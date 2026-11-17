@@ -1,0 +1,11 @@
+# Registra os IPs dos pods do site no target group padrão do listener do ALB interno (fiapx-<env>-web,
+# health check GET / na porta 8080). O ARN vem do SSM (/fiapx/<env>/alb/web_target_group_arn) pelo overlay.
+apiVersion: elbv2.k8s.aws/v1beta1
+kind: TargetGroupBinding
+metadata:
+  name: web
+  labels: { app.kubernetes.io/name: web, app.kubernetes.io/part-of: fiapx }
+spec:
+  serviceRef: { name: web, port: 80 }
+  targetGroupARN: WEB_TARGET_GROUP_ARN
+  targetType: ip

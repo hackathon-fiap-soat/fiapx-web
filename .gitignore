@@ -160,3 +160,20 @@ vite.config.ts.timestamp-*
 # Turbo Repo
 .turbo
 
+
+# --- fiapx-web ---
+!.env.mock
+dist-*/
+playwright-report/
+test-results/
+blob-report/
+playwright/.cache/
+
+# Gerado no deploy a partir do SSM
+k8s/overlays/prod/aws.env
+
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.*
+.terraform.lock.hcl
