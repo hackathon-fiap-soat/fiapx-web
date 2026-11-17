@@ -48,9 +48,10 @@ Decisão nova ou que contrarie uma existente vira ADR no `fiapx-docs`.
 
 ## Andamento (2026-11-17)
 
-Etapas 0 a 4 concluídas. Etapa 7 (infra AWS) aplicada na AWS Academy: notification (fila e tabela), auth e
-video-api implantados e testados com o smoke do `deploy-all`; ambiente derrubado depois do teste.
-Próxima: Etapa 5 (`fiapx-video-processor`), que termina com o deploy testado na AWS.
+Etapa 7 (infra AWS) aplicada e testada na AWS Academy; o estado das demais etapas está no painel. **Etapa 6.5 (este repositório)
+implementada:** telas, mock, testes (cobertura ~97%), E2E, imagem nginx, `k8s/`, `infra/` (rota `$default`) e
+workflows; DoD local provado contra o stack real. Falta o deploy testado na AWS (`deploy-all` com o job `web`,
+que o time liga no `fiapx-infra`) e o `destroy-all`.
 Ordem do plano: 3 auth → 4 video-api → 5 processor → 6 notification → 6.5 web → 7 infra AWS 🛑 → 8 CI/CD →
 9 observabilidade → 10 carga e entregáveis 🛑. O estado atualizado está no painel.
 
@@ -90,23 +91,40 @@ Para um serviço usar o LocalStack: `AWS_ENDPOINT_URL=http://localhost:4566`, `A
 
 ## Este repositório (Etapa 6.5)
 
-Front-end em React + Vite + TypeScript + Tailwind, servido por um pod nginx no EKS na mesma origem da API
-(spec §8.7, ADR-014 revisado pelo ADR-019). O layout de referência está em `stitch_fiap_x_video_processor_front_end/` (HTML,
-`screen.png` por tela e `DESIGN.md`). O README traz o escopo de cada tela e os elementos do painel que a API
-não suporta.
+Front-end em React 18 + Vite + TypeScript + Tailwind 4, servido por um pod nginx no EKS na mesma origem da API
+(spec §8.7, ADR-019 §6). O layout de referência está em `stitch_fiap_x_video_processor_front_end/` (HTML,
+`screen.png` por tela e `DESIGN.md`). O README traz rotas, escopo de cada tela e o que foi removido do layout.
 
-- `VITE_API_BASE_URL=/api`. Token em memória + `sessionStorage`; 401 ou 403 → volta ao login.
+Estrutura:
+
+| Pasta | Conteúdo |
+|---|---|
+| `src/app/` | rotas (`AppRoutes`), providers (TanStack Query + sessão), layout autenticado |
+| `src/features/auth/` | API de `/auth/*`, `AuthProvider` + `useAuth`, `ProtectedRoute`/`GuestRoute`, política de senha |
+| `src/features/videos/` | API de `/videos*`, `uploadToS3` (XHR), `useUploads` (fila, 3 simultâneos), tabela, badges, status |
+| `src/shared/` | `httpClient` (Bearer, `ApiError`, 401/403 → sessão expirada), `tokenStore`, formatadores, `ui/` |
+| `src/pages/` | uma página por rota |
+| `src/mocks/` | MSW: `db.ts` (estado em memória e evolução de status) e `handlers.ts` (auth, vídeos e o "S3") |
+| `e2e/`, `e2e-local/` | Playwright contra o mock (CI) e contra o stack real local (DoD, manual) |
+| `nginx/`, `Dockerfile` | imagem `nginx-unprivileged` 8080, `USER 101:101`, fallback do SPA |
+| `k8s/` | Deployment/Service/TargetGroupBinding/PDB `web` no namespace `fiapx` (kustomize, overlay `prod`) |
+| `infra/` | rota `$default` do HTTP API → VPC Link → ALB (state `fiapx-web/prod.tfstate`) |
+
+- `VITE_API_BASE_URL=/api`. Token em memória + `sessionStorage`; 401 ou 403 → `AuthProvider` limpa a sessão e o
+  `ProtectedRoute` leva ao login com "Sua sessão expirou" (o `navigate` direto perde o state no React Router 7).
 - Upload: `POST /api/videos` → `POST` multipart no S3 com os `fields` recebidos (o arquivo é o **último**
   campo), progresso por `XMLHttpRequest`. Limite de 500 MB; o POST pré-assinado vale 1 h.
 - Status atualizado por polling de 5 s enquanto houver vídeo em estado não final.
-- Telas: login, cadastro, painel (upload múltiplo + lista + download), recuperar senha, criar nova senha
-  pelo link e trocar senha logado.
-- Modo mock com MSW. Testes: Vitest + Testing Library (≥ 80%) e um E2E com Playwright.
-- Contratos HTTP em `fiapx-docs/api/openapi.yaml`; prompt e regras de UX em
-  `fiapx-docs/00-especificacao/Prompt-layout-web.md`.
+- Dev local: o proxy do Vite manda `/api/auth` para o auth (3001) e o resto de `/api` para o video-api (8080). O
+  CORS do bucket do LocalStack só libera `http://localhost:5173`: o Vite precisa rodar nessa porta.
+- Testes: o `src/test/setup.ts` troca `FormData`/`File` do jsdom pelos do Node, senão o XHR interceptado
+  pelo MSW nunca termina o corpo multipart. `renderApp(path, { loggedIn })` em `src/test/render.tsx` monta o
+  app inteiro com o MSW.
+- Deploy: `deploy.yml` (sem inputs; `workflow_call` do `deploy-all`) e `destroy.yml` (`workflow_call`; manual com
+  `confirm = destroy-web`). O destroy apaga só os recursos `web`; quem apaga o namespace é o video-api.
 
 **DoD da Etapa 6.5:** no ambiente local, cadastro → login → upload de 3 vídeos ao mesmo tempo → status
-atualizando sozinho → download dos zips.
+atualizando sozinho → download dos zips (`npm run test:e2e:local`, ver README).
 
 ## Skills deste repositório
 
